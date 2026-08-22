@@ -1,7 +1,10 @@
 import Container from '../components/ui/Container';
 import SearchBar from '../components/SearchBar';
+import { useSearchParams } from 'react-router-dom';
 
 const SearchPage = () => {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('q') || '';
   return (
     <main>
       <section className="py-12 md:py-16">
@@ -13,6 +16,9 @@ const SearchPage = () => {
             <div className="mt-6">
               <SearchBar />
             </div>
+            {query && (
+              <p className="mt-4 text-text-primary">Searching for:{query}</p>
+            )}
           </div>
         </Container>
       </section>
