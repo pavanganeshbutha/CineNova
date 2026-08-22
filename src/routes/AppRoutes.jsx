@@ -8,6 +8,7 @@ import SearchPage from '../pages/SearchPage';
 import PrivateLayout from '../layouts/PrivateLayout';
 import ProfilePage from '../pages/ProfilePage';
 import WatchlistPage from '../pages/WatchlistPage';
+import TVPage from '../pages/TVPage';
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
+        <Route path="/tv" element={<TVPage />} />
         <Route path="/search" element={<SearchPage />} />
       </Route>
 
