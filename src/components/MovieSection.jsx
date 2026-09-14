@@ -8,9 +8,13 @@ const MovieSection = ({ movies }) => {
         <h2 className="text-text-primary text-2xl font-bold mb-6">
           Popular movies
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex overflow-x-auto scroll-smooth gap-6 snap-none md:snap-x snap-mandatory scrollbar-none">
           {movies.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
+            <MovieCard
+              movie={movie}
+              key={movie.id}
+              className={' shrink-0 grow-0  '}
+            />
           ))}
         </div>
       </Container>
