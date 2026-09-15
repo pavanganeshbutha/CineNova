@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 import { getTmdbImageUrl } from '../../utils/tmdbImage';
 import Button from './Button';
 
-export const Carousel = ({ data }) => {
+export const Carousel = ({ data, type }) => {
   return (
     <div className="flex gap-5 overflow-x-auto scrollbar-none scroll-smooth snap-none">
       {data.map((item) => (
@@ -11,7 +12,7 @@ export const Carousel = ({ data }) => {
             className="rounded-lg border-2 border-glass-border size-80 w-fit"
           />
           <Button size="small" className=" w-full mt-4">
-            More Info...
+            <Link to={`/${type}/${item.id}`}>More Info...</Link>
           </Button>
         </div>
       ))}

@@ -17,7 +17,9 @@ export const PopularMovies = () => {
         {isError && (
           <p className="text-text-secondary">Failed to popular movies...</p>
         )}
-        {!isLoading && !isError && <Carousel data={popularMovies} />}
+        {!isLoading && !isError && (
+          <Carousel data={popularMovies} type="movie" />
+        )}
       </Container>
     </section>
   );
