@@ -9,6 +9,7 @@ import PrivateLayout from '../layouts/PrivateLayout';
 import ProfilePage from '../pages/ProfilePage';
 import WatchlistPage from '../pages/WatchlistPage';
 import TVPage from '../pages/TVPage';
+import TvDetailsPage from '../pages/TvDetailsPage';
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
         <Route path="/tv" element={<TVPage />} />
+        <Route path="/tv/:tvId" element={<TvDetailsPage />} />
         <Route path="/search" element={<SearchPage />} />
       </Route>
 
