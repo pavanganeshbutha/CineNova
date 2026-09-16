@@ -11,9 +11,11 @@ export const Carousel = ({ data, type }) => {
             src={getTmdbImageUrl(item.posterPath, 'w500')}
             className="rounded-lg border-2 border-glass-border size-80 w-fit"
           />
-          <Button size="small" className=" w-full mt-4">
-            <Link to={`/${type}/${item.id}`}>More Info...</Link>
-          </Button>
+          <Link to={`/${type}/${item.id}`}>
+            <Button size="small" className=" w-full mt-4 cursor-pointer">
+              More Info...
+            </Button>
+          </Link>
         </div>
       ))}
     </div>
