@@ -17,7 +17,9 @@ export const TrendingTvShows = () => {
         {isError && (
           <p className="text-text-secondary">Failed to load Tv Shows...</p>
         )}
-        {!isLoading && !isError && <Carousel data={trendingTvShows} />}
+        {!isLoading && !isError && (
+          <Carousel data={trendingTvShows} type="tv" />
+        )}
       </Container>
     </section>
   );
