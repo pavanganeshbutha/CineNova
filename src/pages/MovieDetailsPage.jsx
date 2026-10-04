@@ -6,19 +6,35 @@ import Container from '../components/ui/Container';
 import Loading from '../components/ui/Loading';
 import EmptyState from '../components/ui/EmptyState';
 import { ArrowLeft, Check, Plus } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addToWatchlist, removeFromWatchlist } from '../redux/watchlistSlice';
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
-  const watchlist = useSelector((state) => state.watchlist.movies);
+  const watchlist = useSelector((state) => state.watchlist.watchlist);
+  const isInWatchlist = watchlist.some(
+    (item) => item.id === Number(movieId) && item.type === 'movie',
+  );
 
   const {
     data: movieData,
     isLoading,
     isError,
   } = useGetMovieDetailsQuery(movieId);
+
+  /*
+   *payload:{id, type, title, year, rating, posterPath, genres}
+   */
+  const payload = {
+    id: movieData?.id,
+    type: 'movie',
+    title: movieData?.title,
+    year: movieData?.release_date?.slice(0, 4),
+    rating: movieData?.vote_average,
+    posterPath: movieData?.poster_path,
+    genres: movieData?.genres?.map((genre) => genre.name),
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -37,9 +53,6 @@ const MovieDetailsPage = () => {
   }
 
   const movie = mapMovieDetails(movieData);
-  const isInWatchlist = watchlist.some(
-    (watchlistMovie) => watchlistMovie.id === movie.id,
-  );
 
   return (
     <main>
@@ -86,18 +99,20 @@ const MovieDetailsPage = () => {
               <button
                 type="button"
                 className="bg-primary rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent cursor-pointer"
-                onClick={() => {
-                  if (isInWatchlist) {
-                    dispatch(removeFromWatchlist(movie.id));
-                  } else {
-                    dispatch(addToWatchlist(movie));
-                  }
-                }}
+                onClick={() =>
+                  isInWatchlist
+                    ? dispatch(removeFromWatchlist(payload))
+                    : dispatch(addToWatchlist(payload))
+                }
               >
-                <span className="flex items-center justify-center gap-1">
-                  {isInWatchlist ? <Check size={16} /> : <Plus size={16} />}
-                  {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
-                </span>
+                <div className="flex items-center justify-center gap-1">
+                  <span>
+                    {isInWatchlist ? <Check size={16} /> : <Plus size={16} />}
+                  </span>
+                  <span>
+                    {isInWatchlist ? 'Added to Watchlist' : 'Add to Watchlist'}
+                  </span>
+                </div>
               </button>
             </div>
           </Container>

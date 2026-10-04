@@ -36,6 +36,9 @@ const Navbar = () => {
           <NavLink className={navLinkClass} to="/tv">
             TV
           </NavLink>
+          <NavLink className={navLinkClass} to="/watchlist">
+            Watchlist
+          </NavLink>
           <NavLink className={navLinkClass} to="/search">
             Search
           </NavLink>
