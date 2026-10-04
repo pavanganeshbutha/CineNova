@@ -4,12 +4,18 @@ import Loading from '../components/ui/Loading';
 import EmptyState from '../components/ui/EmptyState';
 import { getTmdbImageUrl } from '../utils/tmdbImage';
 import Container from '../components/ui/Container';
-import Button from '../components/ui/Button';
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Check, Plus } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToWatchlist, removeFromWatchlist } from '../redux/watchlistSlice';
 
 export default function TvDetailsPage() {
   const { tvId } = useParams();
+  const dispatch = useDispatch();
+  const watchlist = useSelector((state) => state.watchlist.watchlist);
+  const isInWatchlist = watchlist.some(
+    (item) => item.id === Number(tvId) && item.type === 'tv',
+  );
   const { data: tvShowData, isLoading, isError } = useGetTvDetailsQuery(tvId);
   const backdropPath = tvShowData?.backdrop_path;
   const lastAirDate = tvShowData?.last_episode_to_air?.air_date;
@@ -18,7 +24,19 @@ export default function TvDetailsPage() {
   const genres = tvShowData?.genres;
   const posterPath = tvShowData?.poster_path;
 
-  console.log(tvShowData);
+  /*
+   *payload:{id, type, title, year, rating, posterPath, genres}
+   */
+  const payload = {
+    id: tvShowData?.id,
+    type: 'tv',
+    title: tvShowData?.name,
+    year: tvShowData?.first_air_date?.slice(0, 4),
+    rating: tvShowData?.vote_average,
+    posterPath,
+    genres: genres?.map((genre) => genre.name),
+  };
+
   if (isLoading) return <Loading />;
   if (isError || !tvShowData)
     return (
@@ -59,7 +77,24 @@ export default function TvDetailsPage() {
                 </span>
               ))}
             </div>
-            <Button>+ Add to Watchlist</Button>
+            <button
+              type="button"
+              className="bg-primary rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent cursor-pointer"
+              onClick={() =>
+                isInWatchlist
+                  ? dispatch(removeFromWatchlist(payload))
+                  : dispatch(addToWatchlist(payload))
+              }
+            >
+              <div className="flex items-center justify-center gap-1">
+                <span>
+                  {isInWatchlist ? <Check size={16} /> : <Plus size={16} />}
+                </span>
+                <span>
+                  {isInWatchlist ? 'Added to Watchlist' : 'Add to Watchlist'}
+                </span>
+              </div>
+            </button>
           </div>
         </Container>
       </section>
